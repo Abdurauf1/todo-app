@@ -54,7 +54,7 @@ const App: FC = () => {
         text: newName,
         completed: todo.completed,
       };
-      setTodos([...todos, newTodo]);
+      setTodos([newTodo]);
     });
     setInputVal("");
     setIsEditing(false);
