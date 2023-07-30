@@ -1,63 +1,37 @@
-import { useState, FC } from "react";
+import { FC, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface TodoItem {
   id: string;
-  text: string;
+  name: string;
   completed: boolean;
 }
 
 const App: FC = () => {
+  const [inputVal, setInputVal] = useState("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [inputVal, setInputVal] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const addItem = (): void => {
-    if (inputVal.trim() !== "") {
+  const addTask = (): void => {
+    if (inputVal.trim() === "") {
+      toast.error("Please provide value");
+    } else {
       const newTodo: TodoItem = {
         id: new Date().getTime().toString(),
-        text: inputVal,
+        name: inputVal,
         completed: false,
       };
       setTodos([...todos, newTodo]);
       setInputVal("");
       toast.success("Task added successfully");
-    } else {
-      toast.error("Please provide value");
     }
   };
 
-  const deleteItem = (id: string): void => {
-    const updateTodos: TodoItem[] = todos.filter(todo => todo.id !== id);
-    setTodos(updateTodos);
-    toast.error("Task deleted successfully");
-  };
-
-  const handleEditing = (): void => {
-    todos.map(todo => {
-      const oldTodo = {
-        id: todo.id,
-        text: todo.text,
-        completed: todo.completed,
-      };
-      setInputVal(oldTodo.text);
-    });
-    setIsEditing(true);
-  };
-
-  const editItem = (): void => {
-    let newName = inputVal;
-    todos.map(todo => {
-      const newTodo = {
-        id: todo.id,
-        text: newName,
-        completed: todo.completed,
-      };
-      setTodos([newTodo]);
-    });
-    setInputVal("");
-    setIsEditing(false);
+  const deleteTask = (id: string): void => {
+    const updatedTodos: TodoItem[] = todos.filter(todo => todo.id !== id);
+    setTodos(updatedTodos);
+    toast.success("Task deleted successfully");
   };
 
   return (
@@ -66,34 +40,32 @@ const App: FC = () => {
       <div className="container">
         <h1>To do list</h1>
         <div className="add-item-wrapper">
-          <input onChange={e => setInputVal(e.target.value)} value={inputVal} />
-          <button
-            className={`${isEditing ? "btn-success" : "btn-primary"}`}
-            onClick={isEditing ? editItem : addItem}
-          >
-            {isEditing ? "Save" : "Add task"}
+          <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
+          <button className="btn-primary" onClick={addTask}>
+            Add task
           </button>
         </div>
         <ul className="list-group">
-          {todos.map(todo => (
+          {todos?.map(todo => (
             <li
-              className="list-group-item d-flex align-items-center justify-content-between"
               key={todo.id}
+              className="list-group-item d-flex align-items-center justify-content-between"
             >
               <div>
                 <input
-                  className="checkbox"
-                  onChange={() => setIsChecked(!isChecked)}
-                  id={todo.id}
+                  className={`${isChecked ? "animate-input" : ""} checkbox`}
                   type="checkbox"
+                  id={todo.id}
+                  onChange={() => setIsChecked(!isChecked)}
+                  checked={isChecked}
                 />
-                <label htmlFor={todo.id}>{todo.text}</label>
+                <label className={isChecked ? "animate-label" : ""} htmlFor={todo.id}>
+                  {todo.name}
+                </label>
               </div>
               <div>
-                <button className="btn btn-success" onClick={() => handleEditing()}>
-                  Edit task
-                </button>
-                <button className="btn btn-danger" onClick={() => deleteItem(todo.id)}>
+                <button className="btn btn-success">Edit task</button>
+                <button className="btn btn-danger" onClick={() => deleteTask(todo.id)}>
                   Delete task
                 </button>
               </div>
