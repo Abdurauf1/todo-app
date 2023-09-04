@@ -68,12 +68,12 @@ const App: FC = () => {
         <h1>To do list</h1>
         <div className="add-item-wrapper">
           <Input
-            inputVal={inputVal}
-            setInputVal={setInputVal}
-            isEditing={isEditing}
             todos={todos}
-            editTask={editTask}
             addTask={addTask}
+            editTask={editTask}
+            inputVal={inputVal}
+            isEditing={isEditing}
+            setInputVal={setInputVal}
           />
         </div>
         <ul className="list-group">
@@ -81,8 +81,8 @@ const App: FC = () => {
             <ToDoItem
               todo={todo}
               isChecked={isChecked}
-              setIsChecked={setIsChecked}
               deleteTask={deleteTask}
+              setIsChecked={setIsChecked}
               startEditTask={startEditTask}
             />
           ))}

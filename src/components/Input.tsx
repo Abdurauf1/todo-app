@@ -1,12 +1,13 @@
+import React from "react";
 import { TodoItem } from "../App";
 
 interface Props {
   inputVal: string;
-  setInputVal: (e: string) => void;
-  isEditing: boolean;
   todos: TodoItem[];
-  editTask: (e: string) => void;
+  isEditing: boolean;
   addTask: () => void;
+  editTask: (e: string) => void;
+  setInputVal: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Input = ({ inputVal, setInputVal, isEditing, todos, editTask, addTask }: Props) => {
@@ -15,7 +16,7 @@ const Input = ({ inputVal, setInputVal, isEditing, todos, editTask, addTask }: P
       <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
       {isEditing ? (
         todos.map((todo: TodoItem) => (
-          <button key={todo.id} className="btn-success" onClick={() => editTask(todo.id)}>
+          <button className="btn-success" onClick={() => editTask(todo.id)}>
             Edit task
           </button>
         ))

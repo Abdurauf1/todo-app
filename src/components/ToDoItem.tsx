@@ -1,12 +1,12 @@
-import { TodoItem } from "../App";
 import React from "react";
+import { TodoItem } from "../App";
 
 interface Props {
   todo: TodoItem;
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
-  startEditTask: (e: string) => void;
   deleteTask: (e: string) => void;
+  startEditTask: (e: string) => void;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ToDoItem = ({ todo, isChecked, setIsChecked, deleteTask, startEditTask }: Props) => {
