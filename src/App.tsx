@@ -1,8 +1,10 @@
 import { FC, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Input from "./components/Input";
 import "react-toastify/dist/ReactToastify.css";
+import ToDoItem from "./components/ToDoItem";
 
-interface TodoItem {
+export interface TodoItem {
   id: string;
   name: string;
   completed: boolean;
@@ -12,6 +14,7 @@ const App: FC = () => {
   const [inputVal, setInputVal] = useState("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const addTask = (): void => {
     if (inputVal.trim() === "") {
@@ -23,9 +26,33 @@ const App: FC = () => {
         completed: false,
       };
       setTodos([...todos, newTodo]);
-      setInputVal("");
       toast.success("Task added successfully");
     }
+    setInputVal("");
+  };
+
+  const editTask = (id: string): void => {
+    todos.map(todo => {
+      if (id === todo.id) {
+        const editedTodo: TodoItem = {
+          id: todo.id,
+          name: inputVal,
+          completed: todo.completed,
+        };
+        setTodos([...todos, editedTodo]);
+      }
+    });
+    setInputVal("");
+    setIsEditing(false);
+  };
+
+  const startEditTask = (id: string): void => {
+    todos.map(todo => {
+      if (id === todo.id) {
+        setInputVal(todo.name);
+      }
+    });
+    setIsEditing(true);
   };
 
   const deleteTask = (id: string): void => {
@@ -40,36 +67,24 @@ const App: FC = () => {
       <div className="container">
         <h1>To do list</h1>
         <div className="add-item-wrapper">
-          <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
-          <button className="btn-primary" onClick={addTask}>
-            Add task
-          </button>
+          <Input
+            inputVal={inputVal}
+            setInputVal={setInputVal}
+            isEditing={isEditing}
+            todos={todos}
+            editTask={editTask}
+            addTask={addTask}
+          />
         </div>
         <ul className="list-group">
           {todos?.map(todo => (
-            <li
-              key={todo.id}
-              className="list-group-item d-flex align-items-center justify-content-between"
-            >
-              <div>
-                <input
-                  className={`${isChecked ? "animate-input" : ""} checkbox`}
-                  type="checkbox"
-                  id={todo.id}
-                  onChange={() => setIsChecked(!isChecked)}
-                  checked={isChecked}
-                />
-                <label className={isChecked ? "animate-label" : ""} htmlFor={todo.id}>
-                  {todo.name}
-                </label>
-              </div>
-              <div>
-                <button className="btn btn-success">Edit task</button>
-                <button className="btn btn-danger" onClick={() => deleteTask(todo.id)}>
-                  Delete task
-                </button>
-              </div>
-            </li>
+            <ToDoItem
+              todo={todo}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+              deleteTask={deleteTask}
+              startEditTask={startEditTask}
+            />
           ))}
         </ul>
       </div>
