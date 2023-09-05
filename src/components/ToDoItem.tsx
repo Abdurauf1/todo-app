@@ -4,28 +4,28 @@ import { TodoItem } from "../App";
 interface Props {
   todo: TodoItem;
   isChecked: boolean;
+  setEdit: (id: string) => void;
   deleteTask: (e: string) => void;
-  startEditTask: (e: string) => void;
   setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ToDoItem = ({ todo, isChecked, setIsChecked, deleteTask, startEditTask }: Props) => {
+const ToDoItem = ({ setEdit, todo, isChecked, setIsChecked, deleteTask }: Props) => {
   return (
-    <li key={todo.id} className="list-group-item">
+    <li className="list-group-item">
       <div>
         <input
-          className={`${isChecked ? "animate-input" : ""} checkbox`}
-          type="checkbox"
           id={todo.id}
-          onChange={() => setIsChecked(!isChecked)}
+          type="checkbox"
           checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)}
+          className={`${isChecked ? "animate-input" : ""} checkbox`}
         />
         <label className={isChecked ? "animate-label" : ""} htmlFor={todo.id}>
           {todo.name}
         </label>
       </div>
       <div>
-        <button className="btn btn-success" onClick={() => startEditTask(todo.id)}>
+        <button className="btn btn-success" onClick={() => setEdit(todo.id)}>
           Edit task
         </button>
         <button className="btn btn-danger" onClick={() => deleteTask(todo.id)}>

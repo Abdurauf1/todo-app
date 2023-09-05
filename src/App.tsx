@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import Input from "./components/Input";
-import "react-toastify/dist/ReactToastify.css";
 import ToDoItem from "./components/ToDoItem";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export interface TodoItem {
   id: string;
@@ -11,10 +11,11 @@ export interface TodoItem {
 }
 
 const App: FC = () => {
-  const [inputVal, setInputVal] = useState("");
+  const [inputVal, setInputVal] = useState<string>("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const addTask = (): void => {
     if (inputVal.trim() === "") {
@@ -31,28 +32,25 @@ const App: FC = () => {
     setInputVal("");
   };
 
-  const editTask = (id: string): void => {
-    todos.map(todo => {
-      if (id === todo.id) {
-        const editedTodo: TodoItem = {
-          id: todo.id,
-          name: inputVal,
-          completed: todo.completed,
-        };
-        setTodos([...todos, editedTodo]);
-      }
-    });
-    setInputVal("");
+  const handleEdit = (editingId: string | null): void => {
+    const updatedTodos: TodoItem[] = todos.map(todo =>
+      todo.id === editingId ? { ...todo, name: inputVal } : todo
+    );
+    setTodos(updatedTodos);
     setIsEditing(false);
+    setInputVal("");
+    setEditingId(null);
+    toast.success("Task edited successfully");
   };
 
-  const startEditTask = (id: string): void => {
+  const setEdit = (id: string): void => {
     todos.map(todo => {
-      if (id === todo.id) {
+      if (todo.id === id) {
         setInputVal(todo.name);
+        setEditingId(todo.id);
+        setIsEditing(true);
       }
     });
-    setIsEditing(true);
   };
 
   const deleteTask = (id: string): void => {
@@ -68,11 +66,11 @@ const App: FC = () => {
         <h1>To do list</h1>
         <div className="add-item-wrapper">
           <Input
-            todos={todos}
+            id={editingId}
             addTask={addTask}
-            editTask={editTask}
             inputVal={inputVal}
             isEditing={isEditing}
+            handleEdit={handleEdit}
             setInputVal={setInputVal}
           />
         </div>
@@ -80,10 +78,11 @@ const App: FC = () => {
           {todos?.map(todo => (
             <ToDoItem
               todo={todo}
+              key={todo.id}
+              setEdit={setEdit}
               isChecked={isChecked}
               deleteTask={deleteTask}
               setIsChecked={setIsChecked}
-              startEditTask={startEditTask}
             />
           ))}
         </ul>
