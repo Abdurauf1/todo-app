@@ -45,9 +45,13 @@ const App: FC = () => {
   const setEdit = (id: string): void => {
     todos.map(todo => {
       if (todo.id === id) {
-        setInputVal(todo.name);
-        setEditingId(todo.id);
-        setIsEditing(true);
+        if (todo.completed === true) {
+          return;
+        } else {
+          setInputVal(todo.name);
+          setEditingId(todo.id);
+          setIsEditing(true);
+        }
       }
     });
   };
