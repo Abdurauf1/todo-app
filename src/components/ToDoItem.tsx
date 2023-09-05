@@ -1,26 +1,27 @@
-import React from "react";
 import { TodoItem } from "../App";
 
 interface Props {
   todo: TodoItem;
-  isChecked: boolean;
   setEdit: (id: string) => void;
   deleteTask: (e: string) => void;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChecked: (id: string, checked: boolean) => void;
 }
 
-const ToDoItem = ({ setEdit, todo, isChecked, setIsChecked, deleteTask }: Props) => {
+const ToDoItem = ({ todo, setEdit, setIsChecked, deleteTask }: Props) => {
+  const handleCheckboxChange = (): void => {
+    setIsChecked(todo.id, !todo.completed);
+  };
   return (
-    <li className="list-group-item">
+    <li className="list-group-item" key={todo.id}>
       <div>
         <input
           id={todo.id}
           type="checkbox"
-          checked={isChecked}
-          onChange={() => setIsChecked(!isChecked)}
-          className={`${isChecked ? "animate-input" : ""} checkbox`}
+          checked={todo.completed}
+          onChange={handleCheckboxChange}
+          className={`${todo.completed ? "animate-input" : ""} checkbox`}
         />
-        <label className={isChecked ? "animate-label" : ""} htmlFor={todo.id}>
+        <label className={todo.completed ? "animate-label" : ""} htmlFor={todo.id}>
           {todo.name}
         </label>
       </div>

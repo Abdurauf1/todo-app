@@ -13,7 +13,6 @@ export interface TodoItem {
 const App: FC = () => {
   const [inputVal, setInputVal] = useState<string>("");
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -36,10 +35,10 @@ const App: FC = () => {
     const updatedTodos: TodoItem[] = todos.map(todo =>
       todo.id === editingId ? { ...todo, name: inputVal } : todo
     );
-    setTodos(updatedTodos);
-    setIsEditing(false);
     setInputVal("");
     setEditingId(null);
+    setIsEditing(false);
+    setTodos(updatedTodos);
     toast.success("Task edited successfully");
   };
 
@@ -57,6 +56,13 @@ const App: FC = () => {
     const updatedTodos: TodoItem[] = todos.filter(todo => todo.id !== id);
     setTodos(updatedTodos);
     toast.success("Task deleted successfully");
+  };
+
+  const setIsChecked = (id: string, checked: boolean): void => {
+    const updatedTodos = todos.map(todo =>
+      todo.id === id ? { ...todo, completed: checked } : todo
+    );
+    setTodos(updatedTodos);
   };
 
   return (
@@ -80,7 +86,6 @@ const App: FC = () => {
               todo={todo}
               key={todo.id}
               setEdit={setEdit}
-              isChecked={isChecked}
               deleteTask={deleteTask}
               setIsChecked={setIsChecked}
             />
