@@ -1,72 +1,55 @@
-import { FC, useState } from "react";
 import Input from "./components/Input";
 import ToDoItem from "./components/ToDoItem";
-import "react-toastify/dist/ReactToastify.css";
+import { FC, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-
-export interface TodoItem {
-  id: string;
-  name: string;
-  completed: boolean;
-}
+import { todoActions } from "./store/todoSlice";
+import { TodoItem } from "./types";
+import { useAppDispatch, useAppSelector } from "./hooks";
+import "react-toastify/dist/ReactToastify.css";
 
 const App: FC = () => {
   const [inputVal, setInputVal] = useState<string>("");
-  const [todos, setTodos] = useState<TodoItem[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  const todos = useAppSelector(state => state.todo.todos);
+  const dispatch = useAppDispatch();
 
   const addTask = (): void => {
     if (inputVal.trim() === "") {
       toast.error("Please provide value");
     } else {
-      const newTodo: TodoItem = {
-        id: new Date().getTime().toString(),
-        name: inputVal,
-        completed: false,
-      };
-      setTodos([...todos, newTodo]);
+      dispatch(
+        todoActions.addItem({
+          id: new Date().getTime().toString(),
+          name: inputVal,
+          completed: false,
+        })
+      );
       toast.success("Task added successfully");
     }
     setInputVal("");
   };
 
   const handleEdit = (editingId: string | null): void => {
-    const updatedTodos: TodoItem[] = todos.map(todo =>
-      todo.id === editingId ? { ...todo, name: inputVal } : todo
-    );
+    dispatch(todoActions.handleEdit({ editingId, inputVal }));
     setInputVal("");
     setEditingId(null);
     setIsEditing(false);
-    setTodos(updatedTodos);
     toast.success("Task edited successfully");
   };
 
   const setEdit = (id: string): void => {
-    todos.map(todo => {
-      if (todo.id === id) {
-        if (todo.completed === true) {
-          return;
-        } else {
-          setInputVal(todo.name);
-          setEditingId(todo.id);
-          setIsEditing(true);
-        }
-      }
-    });
+    dispatch(todoActions.setEdit({ id, setInputVal, setEditingId, setIsEditing }));
   };
 
   const deleteTask = (id: string): void => {
-    const updatedTodos: TodoItem[] = todos.filter(todo => todo.id !== id);
-    setTodos(updatedTodos);
+    dispatch(todoActions.deleteTask({ id }));
     toast.success("Task deleted successfully");
   };
 
   const setIsChecked = (id: string, checked: boolean): void => {
-    const updatedTodos = todos.map(todo =>
-      todo.id === id ? { ...todo, completed: checked } : todo
-    );
-    setTodos(updatedTodos);
+    dispatch(todoActions.setIsChecked({ id, checked }));
   };
 
   return (
@@ -85,7 +68,7 @@ const App: FC = () => {
           />
         </div>
         <ul className="list-group">
-          {todos?.map(todo => (
+          {todos?.map((todo: TodoItem) => (
             <ToDoItem
               todo={todo}
               key={todo.id}
