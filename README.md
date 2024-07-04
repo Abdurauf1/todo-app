@@ -4,6 +4,8 @@
 
 This repository created with React, TypeScript, Less for styling and Redux for state managament.
 
+#### Live: https://todo-app-abdurauf1.netlify.app/
+
 ### Installation
 
 To run this webapp locally, follow these steps:
