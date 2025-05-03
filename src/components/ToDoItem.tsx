@@ -1,4 +1,4 @@
-import { TodoItem } from "../App";
+import { TodoItem } from "../types/index";
 import { MdDelete, MdEdit } from "react-icons/md";
 
 interface Props {
