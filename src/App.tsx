@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { todoActions } from "./store/todoSlice";
 import { TodoItem } from "./types";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import "react-toastify/dist/ReactToastify.css";
 
 const App: FC = () => {
   const [inputVal, setInputVal] = useState<string>("");
@@ -54,7 +53,11 @@ const App: FC = () => {
 
   return (
     <div className="background">
-      <ToastContainer position="top-left" autoClose={2000} />
+      <ToastContainer
+        position="top-left"
+        autoClose={2000}
+        className="w-90"
+      />
       <div className="container">
         <h1>To do list</h1>
         <div className="add-item-wrapper">

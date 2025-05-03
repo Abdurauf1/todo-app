@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TodosState } from "../types";
+import type { TodoItem, TodosState } from "../types";
+import { toast } from "react-toastify";
 
 const initialState: TodosState = {
     todos: []
@@ -21,9 +22,10 @@ export const todoSlice = createSlice({
             state.todos = state.todos.map(todo => todo.id === action.payload.editingId ? { ...todo, name: action.payload.inputVal } : todo)
         },
         setEdit: (state, action) => {
-            state.todos.map(todo => {
+            state.todos.map((todo: TodoItem) => {
                 if (todo.id === action.payload.id) {
                     if (todo.completed) {
+                        toast.error("Task is already done")
                         return;
                     } else {
                         action.payload.setInputVal(todo.name);

@@ -1,4 +1,5 @@
 import { TodoItem } from "../App";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 interface Props {
   todo: TodoItem;
@@ -27,10 +28,10 @@ const ToDoItem = ({ todo, setEdit, setIsChecked, deleteTask }: Props) => {
       </div>
       <div>
         <button className="btn btn-success" onClick={() => setEdit(todo.id)}>
-          Edit task
+          <MdEdit />
         </button>
         <button className="btn btn-danger" onClick={() => deleteTask(todo.id)}>
-          Delete task
+          <MdDelete />
         </button>
       </div>
     </li>

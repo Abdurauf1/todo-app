@@ -27,13 +27,16 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
+
     h1 {
       text-align: center;
       font-weight: 400;
       margin-bottom: 30px;
     }
+
     .add-item-wrapper {
       display: flex;
+
       input {
         width: 500px;
         padding: 10px;
@@ -44,6 +47,7 @@
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
       }
+
       button {
         width: 100px;
         padding: 10px;
@@ -56,22 +60,26 @@
         border-bottom-right-radius: 5px;
       }
     }
+
     .list-group {
       width: 100%;
       margin: 50px auto 0 auto;
       background-color: #fff;
       border-radius: 10px;
+
       .list-group-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
         overflow-x: auto;
+
         div:first-child {
           position: relative;
           display: grid;
           grid-template-columns: 30px auto;
           align-items: center;
+
           .checkbox {
             margin-right: 10px;
             cursor: pointer;
@@ -86,6 +94,7 @@
             cursor: pointer;
             display: grid;
             align-items: center;
+
             &::before,
             &::after {
               content: "";
@@ -95,30 +104,37 @@
               background: @check;
               border-radius: 2px;
             }
+
             &::before {
               width: 0px;
               right: 60%;
               transform-origin: right bottom;
             }
+
             &::after {
               width: 0px;
               left: 40%;
               transform-origin: left bottom;
             }
+
             &:checked {
               &::before {
                 animation: check-01 0.4s ease forwards;
               }
+
               &::after {
                 animation: check-02 0.4s ease forwards;
               }
-              + label {
+
+              +label {
                 color: @disabled;
                 animation: move 0.3s ease 0.1s forwards;
+
                 &::before {
                   background: @disabled;
                   animation: slice 0.4s ease forwards;
                 }
+
                 &::after {
                   animation: firework 0.5s ease forwards 0.1s;
                 }
@@ -126,6 +142,7 @@
             }
           }
         }
+
         label {
           position: relative;
           cursor: pointer;
@@ -133,11 +150,13 @@
           align-items: center;
           width: fit-content;
           transition: color 0.3s ease;
+
           &::before,
           &::after {
             content: "";
             position: absolute;
           }
+
           &::before {
             height: 2px;
             width: 8px;
@@ -146,6 +165,7 @@
             border-radius: 2px;
             transition: background 0.3s ease;
           }
+
           &:after {
             height: 4px;
             width: 4px;
@@ -156,15 +176,18 @@
         }
       }
     }
+
     @media screen and (max-width: 640px) {
       & {
         width: 90%;
       }
     }
+
     @media screen and (max-width: 550px) {
       & {
         .add-item-wrapper {
           flex-direction: column;
+
           input {
             width: 100%;
             border-top-left-radius: 5px;
@@ -172,6 +195,7 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
           }
+
           button {
             width: 100%;
             border-top-left-radius: 0;
@@ -188,7 +212,6 @@
 .btn {
   padding: 10px;
   color: #fff;
-  font-size: 15px;
   border: none;
   border-radius: 5px;
   margin-left: 5px;
@@ -212,6 +235,7 @@
     padding-left: 8px;
     padding-right: 0px;
   }
+
   100% {
     padding-right: 4px;
   }
@@ -222,6 +246,7 @@
     width: 100%;
     left: 4px;
   }
+
   100% {
     width: 100%;
     left: -2px;
@@ -235,16 +260,19 @@
     top: auto;
     transform: rotate(0);
   }
+
   50% {
     width: 0px;
     top: auto;
     transform: rotate(0);
   }
+
   51% {
     width: 0px;
     top: 8px;
     transform: rotate(45deg);
   }
+
   100% {
     width: 5px;
     top: 8px;
@@ -258,16 +286,19 @@
     top: auto;
     transform: rotate(0);
   }
+
   50% {
     width: 0px;
     top: auto;
     transform: rotate(0);
   }
+
   51% {
     width: 0px;
     top: 8px;
     transform: rotate(-45deg);
   }
+
   100% {
     width: 10px;
     top: 8px;
@@ -281,9 +312,11 @@
     box-shadow: 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0,
       0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0;
   }
+
   30% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     box-shadow: 0 -15px 0 0px #4f29f0, 14px -8px 0 0px #4f29f0, 14px 8px 0 0px #4f29f0,

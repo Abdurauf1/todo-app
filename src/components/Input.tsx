@@ -1,4 +1,7 @@
 import React from "react";
+import { IoMdAdd } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+
 
 interface Props {
   inputVal: string;
@@ -15,11 +18,11 @@ const Input = ({ id, isEditing, handleEdit, inputVal, setInputVal, addTask }: Pr
       <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
       {isEditing ? (
         <button className="btn-success" onClick={() => handleEdit(id)}>
-          Edit task
+          <MdEdit />
         </button>
       ) : (
         <button className="btn-primary" onClick={addTask}>
-          Add task
+          <IoMdAdd />
         </button>
       )}
     </>
