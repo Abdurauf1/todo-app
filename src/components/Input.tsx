@@ -15,13 +15,28 @@ interface Props {
 const Input = ({ id, isEditing, handleEdit, inputVal, setInputVal, addTask }: Props) => {
   return (
     <>
-      <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
+      <input
+        type="text"
+        value={inputVal}
+        onChange={e => setInputVal(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            isEditing ? handleEdit(id) : addTask()
+          }
+        }}
+      />
       {isEditing ? (
-        <button className="btn-success" onClick={() => handleEdit(id)}>
+        <button
+          className="btn-success"
+          onClick={() => handleEdit(id)}
+        >
           <MdEdit />
         </button>
       ) : (
-        <button className="btn-primary" onClick={addTask}>
+        <button
+          className="btn-primary"
+          onClick={addTask}
+        >
           <IoMdAdd />
         </button>
       )}
